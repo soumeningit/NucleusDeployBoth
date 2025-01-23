@@ -83,21 +83,36 @@ const __dirname1 = path.resolve();
 //         res.sendFile(path.resolve(__dirname1, "build", "index.html"))
 //     );
 // } 
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname1, "..", "/client/build")));
-    app.get("*", (req, res) =>
-        res.sendFile(path.resolve(__dirname1, "..", "client", "build", "index.html"))
-    );
+// if (process.env.NODE_ENV === "production") {
+//     app.use(express.static(path.join(__dirname1, "..", "/client/build")));
+//     app.get("*", (req, res) =>
+//         res.sendFile(path.resolve(__dirname1, "..", "client", "build", "index.html"))
+//     );
+// } else {
+//     app.get("/", (req, res) => {
+//         return res.json({
+//             success: true,
+//             message: "Server is running",
+//         });
+//     });
+// }
+
+// --------------------------deployment------------------------------
+if (process.env.NODE_ENV !== "production") {
+    app.get("/", (req, res) => {
+        return res.json({
+            success: true,
+            message: "Server is running in development mode.",
+        });
+    });
 } else {
     app.get("/", (req, res) => {
         return res.json({
             success: true,
-            message: "Server is running",
+            message: "Server is running in production mode.",
         });
     });
 }
-
-// --------------------------deployment------------------------------
 
 app.get("/", (req, res) => {
     return res.json({
