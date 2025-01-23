@@ -26,7 +26,8 @@ export function updateAdditionalData(gender, contactNumber, dateOfBirth, about, 
                 throw new Error(response.data.message);
             }
 
-            dispatch(setUser({ ...response.data.updatedUserDetails }))
+            // dispatch(setUser({ ...response.data.updatedUserDetails }))
+            // localStorage.setItem("user",response.data.updatedUserDetails)
 
             toast.success("Profile Updated Successfully")
 

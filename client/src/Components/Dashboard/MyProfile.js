@@ -11,7 +11,7 @@ function MyProfile() {
 
     return (
         <>
-            <h1 className='mb-14 text-lg font-bold text-white' > My Profile</ h1>
+            <h1 className='mb-14 text-lg font-bold text-white'> My Profile</ h1>
 
             {/* Section - 1 */}
             <div className='flex items-center justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12'>

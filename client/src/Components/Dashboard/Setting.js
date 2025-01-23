@@ -5,6 +5,13 @@ import { fileUpload } from '../../service/FileUpload';
 import { useDispatch } from 'react-redux';
 import countriesData from '../../data/countrycode.json'
 import { updateAdditionalData } from '../../service/SettingAPI'
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import { setUser } from '../../Slices/profileSlice';
+
+const BASE_URL = process.env.NODE_ENV === 'production'
+    ? "https://nucleuset-3jhf.onrender.com/api/v1"  // Your production URL
+    : "http://localhost:4001/api/v1";
 
 function Setting() {
 
@@ -20,16 +27,16 @@ function Setting() {
     const [image, setImage] = useState(null);
 
     const { user } = useSelector((state) => state.profile)
+    const { token } = useSelector((state) => state.auth);
 
-    console.log("user in setting : ", user);
+    // console.log("token inside setting : ", token)
+
+    // console.log("user in setting : ", user);
 
     // console.log("user in setting : ", user)
     // console.log("userid in setting : ", user._id)
 
     const id = user._id;
-    const { token } = useSelector((state) => state.auth);
-
-    console.log("token inside setting : ", token)
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -41,16 +48,36 @@ function Setting() {
         })
     }
 
-    const submitHandler = async (event) => {
+    async function submitHandler(event) {
         event.preventDefault();
-        console.log("form data in submit handler : ", formData)
-        let { gender, contactNumber, country, dateOfBirth, about } = formData;
-        let formattedContactNumber = `${country}-${contactNumber}`;
-        // console.log("formattedContactNumber : ", formattedContactNumber)
-        contactNumber = formattedContactNumber
-        // console.log("Updated contactNumber : ", contactNumber)
-        const response = await dispatch(updateAdditionalData(gender, contactNumber, dateOfBirth, about, token))
-        // console.log("Response for adiitional details inside setting : ", response)
+        // console.log("form data in submit handler : ", formData)
+        const toastId = toast.loading("Updating Profile...");
+        try {
+            let formattedContactNumber = `${formData.country}-${formData.contactNumber}`;
+            const data = {
+                ...formData,
+                contactNumber: formattedContactNumber
+            }
+            // console.log("formData : ", data)
+            const UPDATE_PROFILE_API = BASE_URL + "/profile/updateProfile";
+            const response = await axios.put(UPDATE_PROFILE_API, data, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            // console.log("response : ", response);
+            if (response.data.success === true) {
+                toast.success("Profile updated successfully");
+            }
+            toast.dismiss(toastId);
+            setUser(response.data.data);
+            navigate("/dashboard/my-profile");
+        } catch (error) {
+            toast.dismiss(toastId);
+            toast.error("Profile updation failed");
+            // console.log("Updation of additional details failed")
+            console.log(error)
+        }
     }
 
     const selectFileHandler = (event) => {
@@ -59,10 +86,10 @@ function Setting() {
         // console.log("File : ", file);
 
         const selectedFile = event.target.files[0];
-        console.log("Selected File: ", selectedFile);
+        // console.log("Selected File: ", selectedFile);
         setImage(selectedFile);  // Update file state with the selected file
         // Now you can see the correct file value
-        console.log("selectedFile : ", selectedFile)
+        // console.log("selectedFile : ", selectedFile)
     }
 
     const uploadHandler = async () => {
@@ -140,7 +167,6 @@ function Setting() {
                         name="gender"
                         value={formData.gender}
                         onChange={changehandler}
-                        // className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                         className='border border-gray-300  border-b-blue-300 focus:border-blue-400 w-[95%] ml-4 p-2 rounded-md outline-none bg-richblack-700 text-brown-5'
                     >
                         <option value="">Select...</option>
@@ -164,7 +190,6 @@ function Setting() {
                             name="country"
                             value={formData.country}
                             onChange={changehandler}
-                            // className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                             className='border border-gray-300  border-b-blue-300 focus:border-blue-400 w-[25%] ml-4 p-2 rounded-md outline-none bg-richblack-700 text-brown-5'
                         >
                             <option value="">Select...</option>
@@ -220,4 +245,4 @@ function Setting() {
     )
 }
 
-export default Setting
+export default Setting;
