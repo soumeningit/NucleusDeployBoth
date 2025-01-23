@@ -10,6 +10,7 @@ const { uploadFileToCloudinary } = require("../utils/fileUploader")
 exports.updateProfile = async (req, res) => {
     try {
         console.log("inside update profile ..")
+        console.log("req.body : ", req.body)
         // fetch the data
         const { gender = "", contactNumber, dateOfBirth = "", about = "" } = req.body;
         // validate the data
@@ -52,10 +53,11 @@ exports.updateProfile = async (req, res) => {
         await profileDetails.save();
 
         const updatedUserDetails = await User.findById({ _id: userId })
-            .populate("additionalDetails")
+            .populate("additionalDetails", "-password")
             .exec()
 
         console.log("updatedUserDetails ", updatedUserDetails)
+        updatedUserDetails.password = null;
 
         // await profileDetails.save();
 
