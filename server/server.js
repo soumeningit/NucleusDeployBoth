@@ -34,7 +34,9 @@ app.use(cookieParser());
 
 const allowedOrigins = [
     "http://localhost:3000", // For local development
-    "https://nucleuset-3jhf.onrender.com"  // For Render deployment
+    "https://nucleuset-3jhf.onrender.com",  // For Render deployment
+    "https://nucleus-edte.vercel.app/",
+    "https://nucleus-nine-zeta.vercel.app/"
 ];
 
 app.use(
