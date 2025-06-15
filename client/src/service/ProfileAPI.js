@@ -9,7 +9,6 @@ export const instructorCoursesData = async (token) => {
     let ans = [];
     const toastId = toast.loading("Loading..");
     try {
-        console.log("INSIDE INSTRUCTOR COURSES..");
         const response = await apiConnector("GET", GET_INSTRUCTOR_DATA_API, null, {
             Authorization: `Bearer ${token}`
         });
@@ -17,7 +16,6 @@ export const instructorCoursesData = async (token) => {
         if (!response?.data?.success) {
             throw new Error("Fetch Instructor course details failed")
         }
-        console.log("Response in instructorCourse : ", response);
     } catch (error) {
         console.log(error);
         toast.error("Fetch Instructor Course Failed.")
@@ -28,7 +26,6 @@ export const instructorCoursesData = async (token) => {
 
 export const getUserDetailsById = async (token, userId) => {
     try {
-        console.log("Fetching user details for userId:", userId);
         const response = await apiConnector("GET", GET_USER_DETAILS_BY_ID_API, null, {
             Authorization: `Bearer ${token}`
         }, { userId });

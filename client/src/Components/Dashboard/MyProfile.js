@@ -13,7 +13,6 @@ function MyProfile() {
     const { token } = useSelector((state) => state.auth);
 
     const userId = useParams().id || userDetails?._id;
-    console.log("userId : ", userId);
 
     const [user, setUserDetails] = useState();
 
@@ -21,8 +20,6 @@ function MyProfile() {
         const getUserDetails = async () => {
             try {
                 const response = await getUserDetailsById(token, userId);
-                console.log("response : " + response);
-                console.log("response : " + JSON.stringify(response));
                 if (response?.data?.success) {
                     setUserDetails(response?.data?.data);
                     setUser(response?.data?.data);
@@ -37,9 +34,6 @@ function MyProfile() {
             getUserDetails();
         }
     }, []);
-
-    console.log("user : " + JSON.stringify(user));
-
 
     return (
         <>

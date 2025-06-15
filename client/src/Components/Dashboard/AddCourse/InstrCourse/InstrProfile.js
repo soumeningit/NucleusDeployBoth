@@ -45,7 +45,6 @@ export default function CoursesTable() {
     async function fetchCourse() {
         try {
             const response = await fetchInstructorCourses(token);
-            console.log("response in fetchCourse : ", response)
             if (response) {
                 dispatch(setCourse(response))
             }
@@ -87,7 +86,6 @@ export default function CoursesTable() {
                         <Tr>
                             <Td className="py-10 text-center text-2xl font-medium text-richblack-100">
                                 No courses found
-                                {/* TODO: Need to change this state */}
                             </Td>
                         </Tr>
                     ) : (

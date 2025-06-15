@@ -1,63 +1,6 @@
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import SectionForm from './SectionForm';
-// import SubSectionList from './SubSectionList';
-// import { fetchCourseDetails } from '../../../../service/CourseAPI'
-// import { useSelector } from 'react-redux';
-
-// const SectionList = () => {
-//     const [sections, setSections] = useState([]);
-//     const [selectedSection, setSelectedSection] = useState(null);
-//     const courseId = useSelector((state) => state.course.courseId);
-
-//     console.log(" courseId in section list : ", courseId);
-
-//     useEffect(() => {
-//         fetchSections();
-//     }, []);
-
-//     const fetchSections = async () => {
-//         const response = await fetchCourseDetails(courseId);
-//         console.log("Response inside sectionlist : ", response);
-//         console.log("id : ", response.data.courseContent._id)
-//         setSections(response.data.courseContent);
-//         console.log("Sections : ", sections)
-//         console.log("Section's ID : ", sections._id)
-//     };
-
-//     const handleDeleteSection = async (sectionId) => {
-//         await axios.delete(`/api/sections/${sectionId}`);
-//         fetchSections();
-//     };
-
-//     return (
-//         <div className="container mx-auto p-4">
-//             <h1 className="text-2xl font-bold mb-4">Sections</h1>
-//             <SectionForm fetchSections={fetchSections} selectedSection={selectedSection} />
-//             <ul>
-//                 {sections?.map((section) => (
-//                     <li key={section._id} className="border p-2 mb-2">
-//                         <div className="flex justify-between items-center">
-//                             <span>{section.sectionName}</span>
-//                             <div>
-//                                 <button onClick={() => setSelectedSection(section)}>Edit</button>
-//                                 <button onClick={() => handleDeleteSection(section._id)}>Delete</button>
-//                             </div>
-//                         </div>
-//                         <SubSectionList sectionId={section._id} />
-//                     </li>
-//                 ))}
-//             </ul>
-//         </div>
-//     );
-// };
-
-// export default SectionList;
-
-
 // updated
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import SectionForm from './SectionForm';
 import SubSectionList from './SubSectionList';
 import { fetchCourseDetails } from '../../../../service/CourseAPI';
@@ -65,13 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteSection } from '../../../../service/CourseAPI'
 import { setIsFormVisible } from '../../../../Slices/courseSlice'
 
-const SectionList = () => {
+function SectionList() {
     const [sections, setSections] = useState([]);
     const [selectedSection, setSelectedSection] = useState(null);
     const [activeSectionId, setActiveSectionId] = useState(null);
     // const [isFormVisible, setIsFormVisible] = useState(false);
-
-
 
     const [hideStates, setHideStates] = useState({});
 
@@ -111,14 +52,14 @@ const SectionList = () => {
 
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">Sections</h1>
+            <h1 className="text-2xl font-bold mb-4 text-richblack-5">Sections</h1>
             <SectionForm fetchSections={fetchSections} selectedSection={selectedSection} />
             <ul>
                 {sections?.map((section) => (
-                    <li key={section._id} className="border p-2 mb-2">
+                    <li key={section._id} className="border border-[#b2afaf] p-2 mb-2 rounded-md">
                         <div className="flex justify-between items-center">
-                            <span>{section.sectionName}</span>
-                            <div>
+                            <span className='text-base text-[#cbc7c7]'>{section.sectionName}</span>
+                            <div className='flex gap-x-2 text-base text-[#c0b9b9]'>
                                 <button onClick={() => setSelectedSection(section)}>Edit</button>
                                 <button onClick={() => handleDeleteSection(section._id)}>Delete</button>
                                 <button onClick={() => {
@@ -167,12 +108,6 @@ const SectionList = () => {
                                 </button>
                             </div>
                         </div>
-                        {/* {activeSectionId === section._id && (
-
-                            <SubSectionList sectionId={section._id} />
-                            // <div className={`${hideStates[section._id] ? 'hidden' : 'block'} p-4 border-t`}>
-                            // </div>
-                        )} */}
 
                         {activeSectionId === section._id && (
                             <div className={`${hideStates[section._id] ? 'hidden' : 'block'} p-4 border-t`}>
@@ -187,134 +122,3 @@ const SectionList = () => {
 };
 
 export default SectionList;
-
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import SectionForm from './SectionForm';
-// import SubSectionList from './SubSectionList';
-// import { fetchCourseDetails } from '../../../../service/CourseAPI';
-// import { useSelector } from 'react-redux';
-
-// const SectionList = () => {
-//     const [sections, setSections] = useState([]);
-//     const [selectedSection, setSelectedSection] = useState(null);
-//     const courseId = useSelector((state) => state.course.courseId);
-
-//     useEffect(() => {
-//         fetchSections();
-//     }, [courseId]);
-
-//     const fetchSections = async () => {
-//         try {
-//             const response = await fetchCourseDetails(courseId);
-//             const courseContent = response.data.data.courseContent;
-//             const id = response.data.courseContent._id
-//             console.log("courseContent : ", courseContent);
-//             console.log("courseContent _id: ", courseContent._id);
-//             console.log("id : ", id)
-//             setSections(courseContent);
-//         } catch (error) {
-//             console.error("Failed to fetch sections:", error);
-//         }
-//     };
-
-//     const handleDeleteSection = async (sectionId) => {
-//         try {
-//             await axios.delete(`/api/sections/${sectionId}`);
-//             fetchSections();
-//         } catch (error) {
-//             console.error("Failed to delete section:", error);
-//         }
-//     };
-
-//     console.log("Section Id : ", sections._id);
-
-//     return (
-//         <div className="container mx-auto p-4">
-//             <h1 className="text-2xl font-bold mb-4">Sections</h1>
-//             <SectionForm fetchSections={fetchSections} selectedSection={selectedSection} />
-//             <ul>
-//                 {sections.map((section) => (
-//                     <li key={section._id} className="border p-2 mb-2">
-//                         <div className="flex justify-between items-center">
-//                             <span>{section.sectionName}</span>
-//                             <div>
-//                                 <button onClick={() => setSelectedSection(section)}>Edit</button>
-//                                 <button onClick={() => handleDeleteSection(section._id)}>Delete</button>
-//                             </div>
-//                         </div>
-//                         <SubSectionList sectionId={section._id} />
-//                     </li>
-//                 ))}
-//             </ul>
-//         </div>
-//     );
-// };
-
-// export default SectionList;
-
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import SectionForm from './SectionForm';
-// import SubSectionList from './SubSectionList';
-// import { fetchCourseDetails } from '../../../../service/CourseAPI';
-// import { useSelector } from 'react-redux';
-
-// const SectionList = () => {
-//     const [sections, setSections] = useState([]);
-//     const [selectedSection, setSelectedSection] = useState(null);
-//     const courseId = useSelector((state) => state.course.courseId);
-
-//     useEffect(() => {
-//         fetchSections();
-//     }, [courseId]);
-
-//     const fetchSections = async () => {
-//         try {
-//             const response = await fetchCourseDetails(courseId);
-//             const courseContent = response.data.data.courseContent; // Correct path to access courseContent
-//             console.log("courseContent: ", courseContent);
-//             setSections(courseContent);
-//         } catch (error) {
-//             console.error("Failed to fetch sections:", error);
-//         }
-//     };
-
-//     const handleDeleteSection = async (sectionId) => {
-//         try {
-//             await axios.delete(`/api/sections/${sectionId}`);
-//             fetchSections();
-//         } catch (error) {
-//             console.error("Failed to delete section:", error);
-//         }
-//     };
-
-//     return (
-//         <div className="container mx-auto p-4">
-//             <h1 className="text-2xl font-bold mb-4">Sections</h1>
-//             <SectionForm fetchSections={fetchSections} selectedSection={selectedSection} />
-//             <ul>
-//                 {sections.map((section) => (
-//                     <li key={section._id} className="border p-2 mb-2">
-//                         <div className="flex justify-between items-center">
-//                             <span>{section.sectionName}</span>
-//                             <div>
-//                                 <button onClick={() => setSelectedSection(section)}>Edit</button>
-//                                 <button onClick={() => handleDeleteSection(section._id)}>Delete</button>
-//                             </div>
-//                         </div>
-//                         <SubSectionList sectionId={section._id} />
-//                     </li>
-//                 ))}
-//             </ul>
-//         </div>
-//     );
-// };
-
-// export default SectionList;

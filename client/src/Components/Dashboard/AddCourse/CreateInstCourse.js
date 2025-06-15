@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState } from 'react';
-import { GiPreviousButton } from 'react-icons/gi';
 import { IoCheckmark } from "react-icons/io5";
 import CourseInfo from './Form/CourseInfo';
 import CourseBuild from './Form/CourseBuild';
@@ -114,39 +113,3 @@ function CreateInstCourse() {
 }
 
 export default CreateInstCourse
-
-
-// import React, { useState } from 'react'
-
-// function createCourse() {
-
-//     const steps = [
-//         { label: 'Course Information', step: 1 },
-//         { label: 'Course Build', step: 1 },
-//         { label: 'Course Publish', step: 1 },
-//     ]
-
-//     const [currStep, setCurrStep] = useState(1);
-
-//     const totalSteps = steps.length;
-
-
-//     const width = `${(100 / (totalSteps - 1)) * (currStep - 1)}%`
-
-//     return (
-//         <>
-//             <div className='w-full max-w-lg mx-auto p-4'>
-//                 <div className='relative flex justify-between mt-16'>
-//                     <div className="absolute bg-pink-200 h-1 w-full top-1/2 transform -translate-y-1/2"></div>
-//                     <div
-//                         className="absolute bg-purple-800 h-1 top-1/2 transform -translate-y-1/2 transition-width duration-400 ease"
-//                         style={{ width }}
-//                     ></div>
-
-//                 </div>
-//             </div>
-//         </>
-//     )
-// }
-
-// export default createCourse

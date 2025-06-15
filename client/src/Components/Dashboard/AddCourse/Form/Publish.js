@@ -11,23 +11,24 @@ function Publish() {
 
     const { token } = useSelector((state) => state.auth);
     const { courseId } = useSelector((state) => state.course)
+    const { user } = useSelector((state) => state.auth);
 
     const navigate = useNavigate();
 
     const id = localStorage.getItem("courseId")
 
-    console.log("Inside Publish ", "courseId : ", courseId, "token : ", token, " id from localStorage : ", id)
+    // console.log("Inside Publish ", "courseId : ", courseId, "token : ", token, " id from localStorage : ", id)
 
     async function onSubmitHandler(event) {
         event.preventDefault();
         const data = {}
         data.courseId = courseId
         const response = await publishCourseAPI(data, token);
-        console.log("response in publish page : ", response);
+        // console.log("response in publish page : ", response);
         if (response?.status === 200) {
             toast.success("Course Published Successfully")
             setIsChecked(true)
-            navigate("/dashboard/my-profile");
+            navigate(`/dashboard/my-profile/${user._id}`);
         }
 
     }

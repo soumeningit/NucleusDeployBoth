@@ -104,8 +104,6 @@ export async function logIn(email, password, navigate, setToken, setUser, dispat
 }
 
 export async function logout(token, navigate, setToken, setUser, dispatch) {
-  console.log("Inside logout function..");
-  console.log("token : ", token);
 
   try {
     const response = await apiConnector("POST", LOGOUT_API, {
@@ -157,8 +155,8 @@ export async function resetPasswordToken(email, setisemailSent) {
 }
 
 export async function resetPassword(password, confirmPassword, token, navigate) {
-  console.log("Inside reset Password..");
-  console.log("PASSWORD : ", password, " CONFIRM PASSWORD : ", confirmPassword, " TOKEN : ", token);
+  // console.log("Inside reset Password..");
+  // console.log("PASSWORD : ", password, " CONFIRM PASSWORD : ", confirmPassword, " TOKEN : ", token);
 
   try {
     const response = await apiConnector("POST", RESETPASSWORD_API, {
@@ -171,7 +169,7 @@ export async function resetPassword(password, confirmPassword, token, navigate) 
       throw new Error(response.data.message);
     }
 
-    console.log("Response : ", response);
+    // console.log("Response : ", response);
     toast.success("Password updated successfully");
     navigate("/login");
 

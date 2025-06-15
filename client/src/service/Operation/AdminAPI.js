@@ -16,13 +16,13 @@ export const createMessage = async (data, token, dispatch) => {
 
     const toastId = toast.loading("Loading...")
     try {
-        console.log("INSIDE CREATE MESSAGE : ")
-        console.log("Inside create message ", "data : ", data, " token : ", token)
+        // console.log("INSIDE CREATE MESSAGE : ")
+        // console.log("Inside create message ", "data : ", data, " token : ", token)
         dispatch(setLoading(true));
         const response = await apiConnector("POST", CREATE_ANNOUNCEMENT_API, data, {
             Authorization: `Bearer ${token}`,
         })
-        console.log("CREATE MESSAGE API RESPONSE............", response)
+        // console.log("CREATE MESSAGE API RESPONSE............", response)
         if (!response?.data?.success) {
             throw new Error("Could Not Add Course Details")
         }
@@ -45,19 +45,19 @@ export const getMessage = async (data, token, dispatch) => {
     const toastId = toast.loading("Loading...")
     try {
         dispatch(setLoading(true));
-        console.log("ADMIN GETMESSAGE API....")
-        console.log("data : ", data, " token : ", token)
+        // console.log("ADMIN GETMESSAGE API....")
+        // console.log("data : ", data, " token : ", token)
         const response = await apiConnector("GET", GET_ALL_ANNOUNCEMENTS_API, data, {
             Authorization: `Bearer ${token}`,
         })
-        console.log("GET NOTIFICATIONS API RESPONSE............", response)
+        // console.log("GET NOTIFICATIONS API RESPONSE............", response)
         if (!response?.data?.success) {
             throw new Error("Can not get notifications....")
         }
         toast.success("Message fetched Successfully")
 
         // if anything required add logic here
-        console.log("response?.data?.data : ", response?.data?.notifications)
+        // console.log("response?.data?.data : ", response?.data?.notifications)
         result = response?.data?.notifications
 
     } catch (error) {
@@ -75,12 +75,12 @@ export const createNotificationAPI = async (data, token, dispatch) => {
     const toastId = toast.loading("Loading...")
     try {
         dispatch(setLoading(true));
-        console.log("ADMIN CREATEnOTIFICATION API....")
-        console.log("data : ", data, " token : ", token)
+        // console.log("ADMIN CREATEnOTIFICATION API....")
+        // console.log("data : ", data, " token : ", token)
         const response = await apiConnector("POST", CREATE_NOTIFICATION_API, data, {
             Authorization: `Bearer ${token}`,
         })
-        console.log("CREATE NOTIFICATIONS API RESPONSE............", response)
+        // console.log("CREATE NOTIFICATIONS API RESPONSE............", response)
         if (!response?.data?.success) {
             throw new Error("Can not get notifications....")
         }
@@ -105,12 +105,12 @@ export const showDraftCourseAPI = async (token, dispatch) => {
     const toastId = toast.loading("Loading...")
     try {
         dispatch(setLoading(true));
-        console.log("ADMIN GET_DRAFT_COURSE API....")
-        console.log(" ADMIN GET_DRAFT_COURSE API token : ", token)
+        // console.log("ADMIN GET_DRAFT_COURSE API....")
+        // console.log(" ADMIN GET_DRAFT_COURSE API token : ", token)
         const response = await apiConnector("GET", GET_DRAFT_COURSE, token, {
             Authorization: `Bearer ${token}`,
         })
-        console.log("CREATE NOTIFICATIONS API RESPONSE............", response)
+        // console.log("CREATE NOTIFICATIONS API RESPONSE............", response)
         if (!response?.data?.success) {
             throw new Error("Can not get notifications....")
         }
@@ -134,12 +134,12 @@ export const approveCourseAPI = async (data, token, dispatch) => {
     const toastId = toast.loading("Loading...")
     try {
         dispatch(setLoading(true));
-        console.log("ADMIN GET_DRAFT_COURSE API....")
-        console.log(" ADMIN GET_DRAFT_COURSE API token : ", token, " courseId : ", data)
+        // console.log("ADMIN GET_DRAFT_COURSE API....")
+        // console.log(" ADMIN GET_DRAFT_COURSE API token : ", token, " courseId : ", data)
         const response = await apiConnector("POST", GET_APPROVE_COURSE, data, {
             Authorization: `Bearer ${token}`,
         })
-        console.log("APPROVE COURSE RESPONSE API RESPONSE............", response)
+        // console.log("APPROVE COURSE RESPONSE API RESPONSE............", response)
         if (!response?.data?.success) {
             throw new Error("Can not get notifications....")
         }
@@ -162,11 +162,11 @@ export const getAllUser = async (token) => {
     let result = []
     const toastId = toast.loading("Loading...")
     try {
-        console.log("ADMIN GET_ALL_USER API....")
+        // console.log("ADMIN GET_ALL_USER API....")
         const response = await apiConnector("GET", GET_ALL_USER_API, null, {
             Authorization: `Bearer ${token}`,
         })
-        console.log("GET ALL USER API............", response)
+        // console.log("GET ALL USER API............", response)
         if (!response?.data?.success) {
             throw new Error("Can not get all user....")
         }

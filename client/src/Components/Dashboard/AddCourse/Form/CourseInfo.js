@@ -1,38 +1,38 @@
-import React from 'react'
 import { useState } from 'react'
-import { TbReceiptRupee } from "react-icons/tb";
 import { useSelector } from 'react-redux';
 import { addCourseDetails } from '../../../../service/CourseAPI'
 import { useDispatch } from 'react-redux';
 
 const initialFromData = {
-    courseTitle: "", about: "", price: "", catagory: "",
-    iptag: "", tags: [], thumbnail: null, benifit: "", benefits: [],
-    requirement: "", requirements: [], status: ""
+    courseTitle: "",
+    about: "",
+    price: "",
+    catagory: "",
+    iptag: "",
+    tags: [],
+    thumbnail: null,
+    benifit: "",
+    benefits: [],
+    requirement: "",
+    requirements: [],
+    status: ""
 }
 
 function CourseInfo() {
 
-    const { token } = useSelector((state) => state.auth)
-    console.log("Token in create course : ", token);
+    const { token } = useSelector((state) => state.auth);
 
     const dispatch = useDispatch();
 
     let [fromData, setFromData] = useState(initialFromData)
 
     const [tag, setTag] = useState([]);
-    // console.log(fromData);
-    const [imagePreview, setImagePreview] = useState(null);
-    const [selectedImage, setSelectedImage] = useState(null);
-    const [showFile, setShowFile] = useState(false);
+
     const [temp, setTemp] = useState([]);
 
     const [benefitInput, setBenefitInput] = useState([]);
 
-
     const catagories = useSelector((state) => state?.course.catagory);
-
-    // console.log("Catagories are : ", catagories)
 
     function changeHandeler(event) {
         const { name, value } = event.target;
@@ -43,11 +43,6 @@ function CourseInfo() {
             }
             )
         });
-    }
-
-    function btnHandeler(event) {
-        event.preventDefault();
-        console.log(fromData)
     }
 
     const addTag = (event) => {
@@ -103,38 +98,24 @@ function CourseInfo() {
     const removeTag = (indextoremove) => {
         setTag(tag.filter((element, index) => index !== indextoremove))
     }
+
     const removerequirements = (indextoremove) => {
-        setTemp(temp.filter((element, index) => index !== indextoremove))
+        setTemp(temp.filter((_, index) => index !== indextoremove))
     };
+
     const handleRemoveBenefit = (indexToRemove) => {
-        setBenefitInput(benefitInput.filter((ele, idx) => idx !== indexToRemove))
+        setBenefitInput(benefitInput.filter((_, idx) => idx !== indexToRemove)) // return a new array which pass the condition
     }
 
     const handleImgUpload = (event) => {
-        console.log(event.target.files[0]); // Log the selected file
-        setSelectedImage(event.target.files[0]); // Update the state with the selected file
-        console.log("selectedImage : ", selectedImage)
         setFromData(prevData => ({
             ...prevData,
             thumbnail: event.target.files[0]
         }))
     }
 
-    const handlePreview = () => {
-        if (selectedImage) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result); // Set the image preview
-            };
-            reader.readAsDataURL(selectedImage);
-        }
-    };
-
-    // let formData = new FormData();
-
     async function submitHandler(event) {
         event.preventDefault();
-        console.log("fromData : ", fromData)
 
         let formData = new FormData();
         formData.append('courseName', fromData.courseTitle);
@@ -147,16 +128,10 @@ function CourseInfo() {
         formData.append('status', fromData.status);
         formData.append('thumbnailImage', fromData.thumbnail);
 
-        // console.log("Form Data : ", formData);
-
-        for (let entry of formData.entries()) {
-            console.log("Course Information : ", entry[0], entry[1]); // Logs each key and its corresponding value
-        }
-
         <div className='spinner'></div>
         try {
             const response = await addCourseDetails(formData, token, dispatch)
-            console.log("response after form submit: ", response)
+            // console.log("response after form submit: ", response)
 
             setFromData(initialFromData);
         } catch (error) {
@@ -168,7 +143,7 @@ function CourseInfo() {
 
     return (
         <>
-            CourseInfo
+            <h4 className='text-xl text-richblack-5'>CourseInfo</h4>
             <div className='flex flex-col text-richblue-700 items-center mt-2 max-w-[11/12] mx-auto gap-y-4 border-none'>
 
                 <form onSubmit={submitHandler} className='w-full p-20 shadow-lg m-0 gap-y-4 '>
@@ -271,35 +246,9 @@ function CourseInfo() {
                         required
                         type="file"
                         name="myImage"
-                        // Event handler to capture file selection and update the state
                         onChange={handleImgUpload}
-                        onClick={() => setShowFile(true)}
                         className='border border-gray-300 text-white border-b-blue-300 focus:border-blue-400 w-[95%] ml-4 p-2 rounded-md outline-none mb-4'
                     />
-                    {showFile &&
-                        <button
-                            type="button"
-                            onClick={handlePreview}
-                            className="ml-4 px-4 py-2 bg-blue-500 text-white rounded-md"
-                        >
-                            Preview Image
-                        </button>
-                    }
-                    {imagePreview && (
-                        <div className="ml-4 mt-4">
-                            <img src={imagePreview} alt="Image Preview" className="w-48 h-48 object-cover rounded-md" />
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    setImagePreview(null)
-                                    setShowFile(false);
-                                }}
-                                className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md"
-                            >
-                                Exit Preview
-                            </button>
-                        </div>
-                    )}
 
                     <br />
 
@@ -354,7 +303,7 @@ function CourseInfo() {
                             temp && temp.map((data, indx) => {
                                 return (
                                     <div key={indx}
-                                        className='flex items-center bg-blue-800 text-[#e3dddd] rounded-full w-10 h-10 px-3 py-1 mr-2 mb-2'
+                                        className='flex items-center bg-blue-800 text-[#e3dddd] rounded-full h-10 px-3 py-1 mr-2 mb-2'
                                     >
                                         {data}
                                         <button
