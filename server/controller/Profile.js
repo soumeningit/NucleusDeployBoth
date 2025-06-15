@@ -10,7 +10,6 @@ const { uploadFileToCloudinary } = require("../utils/fileUploader")
 exports.updateProfile = async (req, res) => {
     try {
         console.log("inside update profile ..")
-        console.log("req.body : ", req.body)
         // fetch the data
         const { gender = "", contactNumber, dateOfBirth = "", about = "" } = req.body;
         // validate the data
@@ -53,11 +52,10 @@ exports.updateProfile = async (req, res) => {
         await profileDetails.save();
 
         const updatedUserDetails = await User.findById({ _id: userId })
-            .populate("additionalDetails", "-password")
+            .populate("additionalDetails")
             .exec()
 
         console.log("updatedUserDetails ", updatedUserDetails)
-        updatedUserDetails.password = null;
 
         // await profileDetails.save();
 
@@ -312,5 +310,52 @@ exports.instructorDashboard = async (req, res) => {
                 success: false,
                 message: "Can't get enrolled courses right now, please try after some time"
             })
+    }
+}
+
+exports.getUserDetails = async (req, res) => {
+    try {
+        console.log("inside getUserDetails inside server.");
+
+        console.log("req " + req);
+        console.log("req.query : ", req.query);
+
+        const userId = req.query.userId;
+
+        console.log("userId inside getUserDetails in backend : ", userId);
+
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: "User ID is required"
+            });
+        }
+
+        const isUserExists = await User.findById({ _id: userId }).populate("additionalDetails").exec();
+        if (!isUserExists) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+        console.log("isUserExists : ", isUserExists);
+        isUserExists.password = null; // Remove password from response
+
+        return res.status(200)
+            .json({
+                success: true,
+                message: "User details fetched successfully",
+                data: isUserExists
+            });
+
+    } catch (error) {
+        console.log("Can't get user details right now, please try after some time")
+        console.log(error)
+        return res.status(500)
+            .json({
+                success: false,
+                message: "Can't get user details right now, please try after some time"
+            })
+
     }
 }

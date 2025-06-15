@@ -207,6 +207,14 @@ exports.logInController = async (req, res) => {
                 expiresIn: "2h"
             });
 
+            const userData = {
+                _id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                accountType: user.accountType,
+                image: user.image
+            }
+
             // user = user.toObject();
             user.token = token;
             user.password = null;
@@ -223,7 +231,7 @@ exports.logInController = async (req, res) => {
                     success: true,
                     message: "User logged in successfully",
                     token,
-                    user
+                    user: userData
                 })
 
         }// if password is not matched then send a response password is not matched

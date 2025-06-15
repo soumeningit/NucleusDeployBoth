@@ -40,9 +40,6 @@ exports.auth = async (req, res, next) => {
                     message: "Invalid token"
                 })
         }
-
-
-
     } catch (error) {
         console.log("Something went wrong, Please try after some time")
         console.log(error)
@@ -52,7 +49,6 @@ exports.auth = async (req, res, next) => {
                 message: "Token validation failed!"
             })
     }
-
 }
 
 // student

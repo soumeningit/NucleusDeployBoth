@@ -366,3 +366,140 @@ exports.publishCourse = async (req, res) => {
         });
     }
 };
+
+exports.getCourseById = async (req, res) => {
+    try {
+        console.log("Inside get course by Id....");
+        console.log("req.query.courseId : " + req.query.courseId)
+        const courseId = req.query.courseId;
+
+        if (!courseId) {
+            return res.status(404).json({
+                success: false,
+                message: "CourseId is Required"
+            })
+        }
+
+        const course = await Course.findById({ _id: courseId })
+            .populate("instructor", "firstName, lastName, email")
+            .populate("category")
+            .populate({
+                path: "courseContent",
+                populate: {
+                    path: "subSection",
+                    model: "SubSection"
+                }
+            });
+
+        console.log("course : " + course);
+
+        if (!course) {
+            return res.status(404).json({
+                success: false,
+                message: "Course not found",
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Course fetched successfully",
+            data: course,
+        });
+
+    } catch (error) {
+        console.log("Error in get course by Id : " + error);
+        return res.status(501).json({
+            success: false,
+            message: "Error in get this course"
+        })
+    }
+}
+
+exports.editCourse = async (req, res) => {
+    try {
+        console.log("Inside edit course....");
+        console.log("req.body : ", req.body);
+
+        const courseData = req.body;
+        console.log("courseData : ", courseData);
+        console.log("courseData : ", JSON.stringify(courseData));
+
+        for (const key in courseData) {
+            console.log(`${key}: ${courseData[key]}`);
+        }
+
+        const courseId = courseData.courseId || req.query.courseId;
+        if (!courseId) {
+            return res.status(404).json({
+                success: false,
+                message: "CourseId is Required"
+            })
+        }
+
+        const course = await Course.findById({ _id: courseId });
+        if (!course) {
+            return res.status(404).json({
+                success: false,
+                message: "Course not found"
+            });
+        }
+        console.log("courseData.isImageChange : " + courseData.isImageChange);
+        console.log("typeof courseData.isImageChange:", typeof courseData.isImageChange);
+        const isImageChange = String(courseData.isImageChange).toLowerCase() === "true";
+
+        if (isImageChange) {
+            const thumbnail = req.files.thumbnail;
+            console.log("thumbnail : ", thumbnail);
+            if (!thumbnail) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Thumbnail image is required"
+                });
+            }
+            // Upload the new thumbnail image to Cloudinary
+            const thumbnailImage = await uploadFileToCloudinary(
+                thumbnail,
+                process.env.FOLDER_NAME
+            )
+            console.log("thumbnailImage : ", thumbnailImage);
+            course.thumbnail = thumbnailImage.secure_url;
+
+            const updateimageData = await course.save();
+            console.log("updateimageData : ", updateimageData);
+            if (!updateimageData) {
+                return res.status(500).json({
+                    success: false,
+                    message: "Failed to update thumbnail image"
+                });
+            }
+        }
+
+        // Update the course details
+        course.courseName = courseData.courseName || course.courseName;
+        course.courseDescription = courseData.courseDescription || course.courseDescription;
+        course.whatYouWillLearn = JSON.parse(courseData.whatYouWillLearn) || course.whatYouWillLearn;
+        course.tag = JSON.parse(courseData.tag) || course.tag;
+
+        const updatedCourse = await course.save();
+        console.log("updatedCourse : ", updatedCourse);
+        if (!updatedCourse) {
+            return res.status(500).json({
+                success: false,
+                message: "Failed to update course"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Course updated successfully",
+            data: updatedCourse
+        });
+
+    } catch (error) {
+        console.log("Error in edit course : " + error);
+        return res.status(501).json({
+            success: false,
+            message: "Error in edit this course"
+        })
+    }
+}
