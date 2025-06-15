@@ -29,7 +29,7 @@ export const instructorCoursesData = async (token) => {
 export const getUserDetailsById = async (token, userId) => {
     try {
         console.log("Fetching user details for userId:", userId);
-        const response = await apiConnector("GET", GET_USER_DETAILS_BY_ID_API, null, {
+        const response = await apiConnector("GET", GET_USER_DETAILS_BY_ID_API, {userId}, {
             Authorization: `Bearer ${token}`
         }, { userId });
         if (!response?.data?.success) {
