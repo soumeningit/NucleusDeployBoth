@@ -1,6 +1,6 @@
 const BASE_URL = process.env.NODE_ENV === 'production'
-    ? "https://nucleuset-3jhf.onrender.com/api/v1"  // production URL
-    : "http://localhost:4001/api/v1";               // Local development URL
+    ? "https://nucleusbackend.onrender.com/api/v1"  // production URL
+    : "http://localhost:4001/api/v1";                // Local development URL
 
 export const endpoints = {
     SENDOTP_API: BASE_URL + "/auth/sendotp",
