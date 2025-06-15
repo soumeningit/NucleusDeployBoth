@@ -32,11 +32,8 @@ export const getUserDetailsById = async (token, userId) => {
         const response = await apiConnector("GET", GET_USER_DETAILS_BY_ID_API, null, {
             Authorization: `Bearer ${token}`
         }, { userId });
-        if (!response?.data?.success) {
-            throw new Error("Fetch User Details Failed");
-        }
         return response;
     } catch (error) {
-        throw new Error("Fetch User Details Failed");
+        throw new Error(error);
     }
 };
