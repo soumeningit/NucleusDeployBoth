@@ -23,8 +23,6 @@ function loadScript(src) {
 export async function buyCourse(token, courses, userDetails, navigate, dispatch) {
 
     const toastId = toast.loading("Loading....");
-    console.log("inside payment api courses : ", courses)
-    console.log("inside payment api userDetails : ", userDetails)
     try {
         const script = await loadScript("https://checkout.razorpay.com/v1/checkout.js")
         if (!script) {
@@ -38,15 +36,13 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
 
         if (!buyCourseData) {
             toast.error("Cration of order failed")
-            console.log("Cration of order failed in buyCourseData in PaymentAPI....")
         }
         if (!buyCourseData.data.success) {
             throw new Error(buyCourseData.data.message);
         }
-        console.log("buyCourseData inside buy course function : " + JSON.stringify(buyCourseData))
 
         const options = {
-            key: process.env.RAZORPAY_KEY_ID, // Enter the Key ID generated from the Dashboard
+            key: buyCourseData?.data?.data?.secret_id, // Enter the Key ID generated from the Dashboard
             amount: `${buyCourseData.data.data.amount}`, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
             currency: "INR",
             name: "Nucleus",
@@ -84,9 +80,6 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
 async function sendPaymentSuccess(response, amount, token) {
     try {
 
-        console.log("INSIDE sendPaymentSuccessEmail IN PAYMENT API....")
-        console.log("response, amount, token ", response, amount, token)
-
         await apiConnector("POST", SEND_PAYMENT_SUCCESS_EMAIL_API, {
             orederId: response.razorpay_order_id,
             paymentId: response.razorpay_payment_id,
@@ -102,10 +95,7 @@ async function sendPaymentSuccess(response, amount, token) {
 
 async function verifyPayment(bodyData, token, navigate, dispatch) {
     const toastId = toast.loading("Verifying Payment....");
-    console.log("bodyData, token : " + bodyData, token)
-    // dispatch(setPaymentLoading(true));
     try {
-        console.log("verifyPayment inside paymentAPI....")
         const response = await apiConnector("POST", COURSE_VERIFY_API, bodyData, {
             Authorization: `Bearer ${token}`,
         })

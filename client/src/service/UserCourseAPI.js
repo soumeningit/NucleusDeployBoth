@@ -16,15 +16,11 @@ const { ADD_TO_CART_API,
 export async function getUserEnrolledCourses(token, dispatch) {
     let result = []
     try {
-        console.log("inside getUserEnrolledCourses.")
-        console.log("token in API : ", token)
         const response = await apiConnector("GET", GET_USER_ENROLLED_COURSES_API, null,
             {
                 Authorization: `Bearer ${token}`,
             }
         )
-
-        console.log("Response in getUserEnrolledCourses: ", response);
 
         if (!response.data.success) {
             throw new Error(response.data.message)
@@ -32,7 +28,6 @@ export async function getUserEnrolledCourses(token, dispatch) {
 
         result = response.data.enrolledCourses.courses
 
-        console.log("result in getUserEnrolledCourses: ", result);
     }
     catch (error) {
         console.log("Fetch of user enrolled course data failed.")
@@ -49,7 +44,6 @@ export async function getCartItems(token, dispatch) {
     let result = [];
 
     try {
-        console.log("inside getCartItems.")
         dispatch(setLoading(true));
         const response = await apiConnector("GET", GET_CART_ITEMS, null,
             {
@@ -57,7 +51,6 @@ export async function getCartItems(token, dispatch) {
             }
         )
 
-        console.log("response inside API call.. : ", response)
         if (!response.data.success) {
             throw new Error(response.data.message)
         }

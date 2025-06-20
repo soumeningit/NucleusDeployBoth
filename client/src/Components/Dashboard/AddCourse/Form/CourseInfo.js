@@ -96,15 +96,15 @@ function CourseInfo() {
     }
 
     const removeTag = (indextoremove) => {
-        setTag(tag.filter((element, index) => index !== indextoremove))
+        setTag(tag.filter((_, index) => index !== indextoremove));
     }
 
     const removerequirements = (indextoremove) => {
-        setTemp(temp.filter((_, index) => index !== indextoremove))
+        setTemp(temp.filter((_, index) => index !== indextoremove));
     };
 
     const handleRemoveBenefit = (indexToRemove) => {
-        setBenefitInput(benefitInput.filter((_, idx) => idx !== indexToRemove)) // return a new array which pass the condition
+        setBenefitInput(benefitInput.filter((_, idx) => idx !== indexToRemove)); // return a new array which pass the condition
     }
 
     const handleImgUpload = (event) => {

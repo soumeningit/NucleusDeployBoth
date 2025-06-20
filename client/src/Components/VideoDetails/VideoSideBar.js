@@ -8,7 +8,7 @@ import { setCompletedLectures, updateCompletedLectures } from '../../Slices/view
 function VideoSideBar() {
     const [courses, setCourses] = useState(null);
     const { courseId } = useParams();
-    const course = courses?.find((course) => course._id === courseId);
+    const course = courses?.find((course) => course?._id === courseId);
 
     const { token } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
@@ -50,8 +50,6 @@ function VideoSideBar() {
             [sectionId]: !prevState[sectionId],
         }));
     };
-
-    console.log("courses : ", courses)
 
     return (
         <div className='flex h-[calc(100vh-3.5rem)] min-w-[18rem] flex-col border-r-[1px] border-r-richblack-500 py-10'>

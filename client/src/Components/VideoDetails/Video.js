@@ -6,7 +6,7 @@ import { LoadingSpinner, Player, ControlBar, PlaybackRateMenuButton, BigPlayButt
 import './Player.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { setCompletedLectures, updateCompletedLectures } from '../../Slices/viewCourseSlice';
+import { updateCompletedLectures } from '../../Slices/viewCourseSlice';
 import { setLoading } from '../../Slices/courseSlice';
 import { courseProgressAPI } from '../../service/Operation/VideoApi';
 import toast from 'react-hot-toast';
@@ -17,11 +17,8 @@ function Video() {
     const [isEnded, setIsEnded] = useState(false);
     const [videoURL, setVideoURL] = useState("");
     const { courses } = useSelector((state) => state.course);
-    const { courseId } = useParams();
-    const { sectionId } = useParams();
-    const { subSectionId } = useParams();
+    const { courseId, sectionId, subSectionId } = useParams();
     const { token } = useSelector((state) => state.auth);
-    const [isCompleted, setIsCompleted] = useState(null);
     const { completedLectures = [] } = useSelector((state) => state.viewCourse);
 
     const navigate = useNavigate();
@@ -30,9 +27,6 @@ function Video() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log("course Id : ", courseId)
-        console.log("Section Id : ", sectionId)
-        console.log("SubSection Id : ", subSectionId)
 
         const course = courses?.find((course) => course._id === courseId)
         const section = course?.courseContent?.find(function (section) {
@@ -42,14 +36,8 @@ function Video() {
 
         setIsEnded(false);
 
-        const firstVideo = completedLectures[0];
-        const lastVideo = completedLectures[completedLectures.length - 1];
-        console.log("firstVideo : ", firstVideo)
-        console.log("lastVideo : ", lastVideo)
-        setIsCompleted(completedLectures.includes(subSectionId));
-
         setVideoURL(subSection?.videoUrl)
-    }, [courseId, sectionId, subSectionId, courses, completedLectures])
+    }, [sectionId, subSectionId, courses])
 
     const handleReplay = () => {
         const player = playerRef.current;
@@ -64,11 +52,8 @@ function Video() {
         try {
             const res = await courseProgressAPI({ courseId: courseId, subSectionId: subSectionId }, token);
             if (res) {
-                console.log("res : ", res)
-                // console.log("res?.data?.completedVideos : ", res?.data?.completedVideos)
                 dispatch(updateCompletedLectures(subSectionId));
                 localStorage.setItem("completedLect", res?.data?.data?.completedVideos)
-                setIsCompleted(true);
             }
             else {
                 toast.success("Course already marked as completed")
@@ -79,9 +64,6 @@ function Video() {
         setLoading(false);
         setIsEnded(false);
     }
-
-    // console.log("videoUrl : ", videoURL)
-    console.log("completedLectures : ", completedLectures)
 
     return (
         <>

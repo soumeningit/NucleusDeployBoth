@@ -1,43 +1,3 @@
-// import React, { useState } from 'react';
-
-// const Announcements = () => {
-//     const [announcement, setAnnouncement] = useState('');
-
-//     const handleSendAnnouncement = () => {
-//         // Logic to send the announcement
-//         console.log('Announcement sent:', announcement);
-//         setAnnouncement('');
-//     };
-
-//     return (
-//         <div className="p-8">
-//             <h2 className="text-2xl font-bold mb-4">Announcements</h2>
-//             <div className="bg-white p-4 rounded shadow">
-//                 <textarea
-//                     className="w-full p-2 border rounded mb-4"
-//                     rows="5"
-//                     placeholder="Write your announcement here..."
-//                     value={announcement}
-//                     onChange={(e) => setAnnouncement(e.target.value)}
-//                 ></textarea>
-//                 <button
-//                     className="bg-blue-500 text-white px-4 py-2 rounded"
-//                     onClick={handleSendAnnouncement}
-//                 >
-//                     Send Announcement
-//                 </button>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Announcements;
-
-
-
-
-
-
 import React, { useState } from 'react';
 import { createMessage } from '../service/Operation/AdminAPI'
 import { useSelector } from 'react-redux';
@@ -48,7 +8,7 @@ const CreateAnnouncement = () => {
 
     const { token } = useSelector((state) => state.auth);
 
-    console.log("Token in adminAnnouncement : ", token);
+    // console.log("Token in adminAnnouncement : ", token);
 
     const dispatch = useDispatch();
 
@@ -64,12 +24,12 @@ const CreateAnnouncement = () => {
             const data = {};
             data.title = title;
             data.message = message;
-            console.log("Data inside announcement : ", data);
+            // console.log("Data inside announcement : ", data);
 
             const createMessageResponse = await createMessage(data, token, dispatch);
-            console.log("createMessageResponse : ", createMessageResponse);
+            // console.log("createMessageResponse : ", createMessageResponse);
             const createNotificationResponse = await createNotificationAPI(data, token, dispatch);
-            console.log("createNotificationResponse in admin announcement : ", createNotificationResponse);
+            // console.log("createNotificationResponse in admin announcement : ", createNotificationResponse);
 
             setTitle('');
             setMessage('');

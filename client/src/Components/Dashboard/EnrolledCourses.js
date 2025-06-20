@@ -10,27 +10,18 @@ import { setCourse } from '../../Slices/courseSlice';
 function EnrolledCourses() {
 
     const { token } = useSelector((state) => state.auth);
-    console.log("Token Inside Enrolled Course : ", token)
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    const decodedToken = jwtDecode(token);
-    console.log("decodedToken ", decodedToken)
-    const isTokenExpired = decodedToken.exp * 2000 < Date.now();
-    console.log("Is token expired: ", isTokenExpired);
-
 
     const [enrolledCourse, setEnrolledCourse] = useState(null)
 
     const getAllEnrolledCourse = async () => {
         try {
             localStorage.setItem("enrolledCourse", true);
-            console.log("Calling API..")
             const response = await getUserEnrolledCourses(token, dispatch)
             setEnrolledCourse(response);
             dispatch(setCourse(response));
-            console.log("response in getAllEnrolledCourse : ", response)
         }
         catch (e) {
             console.log("Can't get all enrolled course details")
@@ -43,8 +34,6 @@ function EnrolledCourses() {
         getAllEnrolledCourse();
 
     }, []);
-
-    console.log("enrolledCourse : ", enrolledCourse);
 
 
     return (

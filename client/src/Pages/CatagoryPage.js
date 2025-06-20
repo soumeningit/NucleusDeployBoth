@@ -15,8 +15,8 @@ function CatagoryPage() {
         async function fetchCategoryId() {
             try {
                 const categoriesResponse = await apiConnector("GET", categories.CATEGORIES_API)
-                console.log("Result in category page : ", categoriesResponse);
-                console.log("result.data.data : ", categoriesResponse?.data?.data);
+                // console.log("Result in category page : ", categoriesResponse);
+                // console.log("result.data.data : ", categoriesResponse?.data?.data);
 
                 const categoryData = categoriesResponse?.data?.data;
                 if (categoryData) {

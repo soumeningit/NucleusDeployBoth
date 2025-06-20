@@ -9,12 +9,10 @@ export const createMessageAPI = async (data, token) => {
     const toastId = toast.loading("Loading....")
     let result = [];
     try {
-        console.log("INSIDE CREATE MESSAGE API....")
         const response = await apiConnector("POST", CREATE_QUESTION_API, data, {
             Authorization: `${token}`
         })
 
-        console.log("reposne : ", response);
         result = response?.data;
         if (!response.data.success) {
             throw new Error("FAILED IN MESSAGE CREATE API")
@@ -33,11 +31,10 @@ export const getAllQuestionsAPI = async (token) => {
     const toastId = toast.loading("Loading....")
     let result = [];
     try {
-        console.log("INSIDE GET ALL MESSAGE API....")
         const response = await apiConnector("GET", GET_ALL_QUESTION_API, null, {
             Authorization: `${token}`
         })
-        console.log("reposne : ", response);
+
         result = response?.data?.data;
         if (!response.data.success) {
             throw new Error("FAILED IN MESSAGE CREATE API")
@@ -55,11 +52,9 @@ export const createReply = async (data, token) => {
     const toastId = toast.loading("Loading....")
     let result = [];
     try {
-        console.log("INSIDE CREATE REPLY API....")
         const response = await apiConnector("POST", CREATE_REPLY_API, data, {
             Authorization: `${token}`
         })
-        console.log("reposne : ", response);
         result = response?.data;
         if (!response.data.success) {
             throw new Error("FAILED IN MESSAGE CREATE API")
@@ -77,12 +72,10 @@ export const getReply = async (data, token) => {
     const toastId = toast.loading("Loading....")
     let result = [];
     try {
-        console.log("INSIDE GET REPLY API....");
-        console.log("data in get reply api : ", data);
         const response = await apiConnector("POST", GET_ALL_REPLY_API, data, {
             Authorization: `${token}`
         });
-        console.log("response in get reply api: ", response);
+
         result = response?.data?.data;
 
         if (!response?.data?.success) {

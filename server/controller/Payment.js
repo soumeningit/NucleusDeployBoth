@@ -81,6 +81,10 @@ exports.capturePayment = async (req, res) => {
             // }
         );
 
+        order.secret_id = process.env.RAZORPAY_KEY_ID;
+
+        // console.log("order : " + order)
+
         if (!order) {
             return res.status(400)
                 .json({

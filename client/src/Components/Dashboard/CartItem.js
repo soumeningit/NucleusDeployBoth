@@ -11,13 +11,9 @@ import { buyCourse } from '../../service/Operation/PaymentAPI';
 function CartItem() {
 
     const { token } = useSelector((state) => state.auth);
-    console.log("token in cart : ", token)
     const { cart } = useSelector((state) => state.cart);
     const { loading } = useSelector((state) => state.cart);
     const { user } = useSelector((state) => state.profile);
-
-    console.log("Token in cart : ", token);
-    console.log("Cart in cart : ", cart);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -27,7 +23,6 @@ function CartItem() {
     const fetchCartItems = async () => {
         try {
             const response = await getCartItems(token, dispatch);
-            console.log("Cart items : ", response);
             setCourses(response);
         } catch (error) {
             console.log("Calling API Error : ", error)
@@ -36,19 +31,12 @@ function CartItem() {
 
     useEffect(() => {
         fetchCartItems();
-    }, [token, dispatch])
-
-    console.log("Course inside CartItem : ", courses);
+    }, [token, dispatch]);
 
     async function deleteItemHandler(courseId) {
-        //delete item from cart
-        console.log("Delete item handler called");
-        console.log("Course id : ", courseId);
-        console.log("Course id : ", { courseId });
 
         try {
             const response = await deleteFromCartAPI([courseId], token)
-            console.log("Delete item response : ", response);
             setCourses(courses.filter(course => course._id !== courseId));
             toast.success("Course Removed From Cart Successfully")
         } catch (e) {
@@ -65,9 +53,7 @@ function CartItem() {
 
             if (token) {
                 try {
-                    console.log("Courses Id : ", coursesId);
                     const response = buyCourse(token, coursesId, user, navigate, dispatch);
-                    console.log("Response in CourseLandingPage : ", response);
                 }
                 catch (e) {
                     console.log("Error in buyCourse from cart : ", e)
@@ -77,8 +63,6 @@ function CartItem() {
         else {
             toast.error("Cart is Empty.")
         }
-
-        console.log("coursesId : ", coursesId);
     }
 
     function calculatePrice() {
@@ -90,7 +74,6 @@ function CartItem() {
     }
 
     let noOfItems = courses?.length;
-    console.log("noOfItems : ", noOfItems)
 
     localStorage.setItem("totalItems", courses?.length ?? 0)
 
