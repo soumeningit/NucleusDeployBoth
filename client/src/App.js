@@ -13,7 +13,7 @@ import Error from './Pages/Error'
 import Setting from "./Components/Dashboard/Setting";
 import EnrolledCourses from "./Components/Dashboard/EnrolledCourses";
 import CartItem from "./Components/Dashboard/CartItem";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import CreateInstCourse from "./Components/Dashboard/AddCourse/CreateInstCourse";
 import InstrProfile from "./Components/Dashboard/AddCourse/InstrCourse/InstrProfile";
 import AdminDashboard from "./admin/AdminDashboard";
