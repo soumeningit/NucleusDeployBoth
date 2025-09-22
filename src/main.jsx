@@ -3,7 +3,7 @@ import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import RootContextProvider from "./context/RootCOntextProvider.jsx";
+import RootContextProvider from "./context/RootContextProvider.jsx";
 import "prismjs/themes/prism.css";
 import "prismjs/themes/prism-tomorrow.css";
 
