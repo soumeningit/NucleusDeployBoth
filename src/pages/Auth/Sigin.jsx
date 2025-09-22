@@ -65,7 +65,7 @@ const SignInPage = () => {
   function handleSignInWithGoogle(e) {
     e.preventDefault();
 
-    const backendUrl = import.meta.env.VITE_DEV_BACKEND_URL;
+    const backendUrl = import.meta.env.VITE_PROD_BACKEND_URL;
 
     // Redirect user to backend OAuth endpoint
     window.location.href = `${backendUrl}/auth/signin/google`;
