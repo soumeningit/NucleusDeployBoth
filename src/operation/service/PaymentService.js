@@ -38,8 +38,6 @@ export async function buyCourse(token, courseId, navigate) {
             { Authorization: `Bearer ${token}` }
         )
 
-        console.log("buyCourseData : ", buyCourseData);
-
         const paymentId = buyCourseData?.data?.paymentId;
 
         const userDetails = {
@@ -106,8 +104,6 @@ async function verifyPayment(bodyData, token, navigate) {
         const response = await apiConnector("POST", COURSE_VERIFY_API, bodyData, {
             Authorization: `Bearer ${token}`,
         })
-
-        console.log("payment verify response : ", response);
 
         if (response.status === 200) {
             toast.success("payment Successful, you are addded to the course");
